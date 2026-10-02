@@ -182,6 +182,45 @@ body{
       <div id="clienteResultado" class="mt-1"></div>
     </section>
 
+        <!-- QUEDAS_CLIENTES_START -->
+<style>
+.qd-tab{ font-size:12px; font-weight:600; padding:6px 12px; border-radius:10px; cursor:pointer; border:0; }
+.qd-tab[data-active="true"]{ background:var(--surface-3); color:#fff; box-shadow:inset 0 0 0 1px var(--border-strong); }
+.qd-tab[data-active="false"]{ background:transparent; color:var(--text-muted); }
+.qd-kpis{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+@media (min-width:900px){ .qd-kpis{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.qd-kpi{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:12px 14px; }
+.qd-kpi .l{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); }
+.qd-kpi .v{ font-family:'Manrope','Inter',sans-serif; font-size:20px; font-weight:800; color:#fff; margin-top:2px; }
+.qd-kpi .s{ font-size:11.5px; color:var(--text-secondary); margin-top:2px; }
+.qd-table{ width:100%; font-size:13px; border-collapse:collapse; min-width:640px; }
+.qd-table th{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); padding:8px 10px 8px 0; border-bottom:1px solid var(--border); font-weight:600; }
+.qd-table td{ padding:8px 10px 8px 0; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); vertical-align:top; }
+.qd-table td.n, .qd-table th.n{ text-align:right; font-variant-numeric:tabular-nums; }
+.qd-table td.c{ color:#fff; font-weight:600; min-width:220px; }
+.qd-sub{ font-size:11px; color:var(--text-muted); font-weight:400; display:block; margin-top:1px; }
+.qd-more{ margin-top:10px; font-size:12px; font-weight:600; color:var(--blue); background:none; border:0; cursor:pointer; padding:0; }
+.qd-tip{ background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--warn); border-radius:12px; padding:12px 14px; font-size:13px; color:var(--text-secondary); line-height:1.55; }
+.qd-tip b{ color:#fff; }
+</style>
+<section class="card p-5 mb-6 fade-in" id="quedasClientes" style="border-left:3px solid var(--crit);">
+  <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+    <h2 class="font-display text-base font-bold text-white">Quedas de clientes</h2>
+    <span class="text-[11px] text-[var(--text-muted)]" id="qdRef"></span>
+  </div>
+  <p class="text-xs text-[var(--text-secondary)] mb-4">Somente clientes CNPJ e pedidos de venda. Use esta lista para montar a agenda de recuperação — comece sempre pelos de maior valor.</p>
+  <div class="qd-kpis mb-4" id="qdKpis"></div>
+  <div class="inline-flex items-center gap-1 p-1 rounded-xl mb-3 flex-wrap" style="background:var(--surface);border:1px solid var(--border);" id="qdTabs">
+    <button class="qd-tab" data-qd="parados">Pararam de comprar</button>
+    <button class="qd-tab" data-qd="queda">Comprando menos</button>
+    <button class="qd-tab" data-qd="nao_repetiu">Não repetiram no mês</button>
+    <button class="qd-tab" data-qd="giro">Giro da carteira</button>
+  </div>
+  <p class="text-xs text-[var(--text-secondary)] mb-2" id="qdDesc"></p>
+  <div class="overflow-x-auto scrollbar-thin" id="qdBody"></div>
+  <div class="qd-tip mt-4" id="qdTip"></div>
+</section>
+<!-- QUEDAS_CLIENTES_END -->
     <!-- PLANO DE AÇÃO -->
     <section class="card p-5 mb-8 card-hover fade-in" style="border-left:3px solid var(--good);">
       <div class="flex items-center gap-2 mb-3">
@@ -618,3 +657,95 @@ function renderAll(){
 renderTeamStrip();
 renderAll();
 </script>
+<!-- QUEDAS_SCRIPT_START -->
+<script>
+(function(){
+const Q = {"resumo": {"parados_qtd": 7, "parados_em_risco": 2, "parados_inativos": 3, "parados_perdidos": 2, "parados_ticket_mensal": 12754.99, "em_risco_ticket_mensal": 8342.09, "queda_qtd": 11, "queda_perda_3m": 93733.68, "nao_repetiu_qtd": 10, "nao_repetiu_valor": 8333.61, "voltaram_mes_aberto": 0, "com_outro_vendedor": 0}, "parados": [{"cliente": "CLINICA VETERINARIA BYLAARDT LTDA ME", "cidade": "Guaramirim/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Jul/26", "meses_sem_compra": 2, "faixa": "Em risco", "meses_ativos_12m": 5, "ticket_medio_mensal": 7661.82, "total_12m": 38309.1}, {"cliente": "MINI BANDO PET SHOP LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Jun/26", "meses_sem_compra": 3, "faixa": "Inativo", "meses_ativos_12m": 5, "ticket_medio_mensal": 1523.84, "total_12m": 7619.19}, {"cliente": "AGROPECUARIA CHICO BENTO LTDA ME", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Mar/26", "meses_sem_compra": 6, "faixa": "Perdido", "meses_ativos_12m": 3, "ticket_medio_mensal": 896.85, "total_12m": 2690.55}, {"cliente": "FABIANA GUENTHER", "cidade": "Pomerode/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Jun/26", "meses_sem_compra": 3, "faixa": "Inativo", "meses_ativos_12m": 3, "ticket_medio_mensal": 800.37, "total_12m": 2401.11}, {"cliente": "KARIN WITT 16164276802", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Mar/26", "meses_sem_compra": 6, "faixa": "Perdido", "meses_ativos_12m": 4, "ticket_medio_mensal": 770.55, "total_12m": 3082.21}, {"cliente": "BARCELLOS E GOMES SERVICOS VETERINARIOS LTDA", "cidade": "Massaranduba/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Jul/26", "meses_sem_compra": 2, "faixa": "Em risco", "meses_ativos_12m": 3, "ticket_medio_mensal": 680.27, "total_12m": 2040.8}, {"cliente": "AGROPECUARIA TESTO LTDA", "cidade": "Pomerode/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "ultima_compra": "Mai/26", "meses_sem_compra": 4, "faixa": "Inativo", "meses_ativos_12m": 3, "ticket_medio_mensal": 421.29, "total_12m": 1263.86}], "queda": [{"cliente": "CLINICA VETERINARIA BYLAARDT LTDA ME", "cidade": "Guaramirim/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 37286.75, "fat_3m_atual": 298.27, "perda": 36988.48, "var_pct": -99.2, "ultima_compra": "Jul/26"}, {"cliente": "AGROPECUARIA RIO BRANCO LTDA ME", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 34929.49, "fat_3m_atual": 11712.03, "perda": 23217.46, "var_pct": -66.5, "ultima_compra": "Set/26"}, {"cliente": "CLINICA VETERINARIA PETS E SILVESTRES LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 15260.72, "fat_3m_atual": 1322.39, "perda": 13938.33, "var_pct": -91.3, "ultima_compra": "Set/26"}, {"cliente": "CANIL BABY DOLLY LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 12324.69, "fat_3m_atual": 1489.11, "perda": 10835.58, "var_pct": -87.9, "ultima_compra": "Set/26"}, {"cliente": "FEB SERVICOS VETERINARIOS LTDA", "cidade": "Corupa/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 3888.93, "fat_3m_atual": 1465.6, "perda": 2423.33, "var_pct": -62.3, "ultima_compra": "Set/26"}, {"cliente": "GABRIELA DE ANDRADE NIEL", "cidade": "Guaramirim/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 2554.24, "fat_3m_atual": 430.7, "perda": 2123.54, "var_pct": -83.1, "ultima_compra": "Ago/26"}, {"cliente": "MARIVAL AGROPECUARIA LTDA ME", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 5006.77, "fat_3m_atual": 3037.32, "perda": 1969.45, "var_pct": -39.3, "ultima_compra": "Set/26"}, {"cliente": "COMERCIAL CARDUMES LTDA", "cidade": "Pomerode/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 1768.83, "fat_3m_atual": 887.5, "perda": 881.33, "var_pct": -49.8, "ultima_compra": "Ago/26"}, {"cliente": "AGROPET SCOOBY LTDA", "cidade": "Pomerode/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 1002.26, "fat_3m_atual": 374.48, "perda": 627.78, "var_pct": -62.6, "ultima_compra": "Set/26"}, {"cliente": "BARCELLOS E GOMES SERVICOS VETERINARIOS LTDA", "cidade": "Massaranduba/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 900.3, "fat_3m_atual": 499.5, "perda": 400.8, "var_pct": -44.5, "ultima_compra": "Jul/26"}, {"cliente": "NICOLE BRAZ DE BONA LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "fat_3m_ant": 799.5, "fat_3m_atual": 471.9, "perda": 327.6, "var_pct": -41.0, "ultima_compra": "Ago/26"}], "nao_repetiu": [{"cliente": "HOSPITAL VETERINARIO SANTA VIDA JARAGUA DO SUL LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 2495.9, "meses_ativos_12m": 6}, {"cliente": "08252141 MARCOS ODAIR HACKBARTH", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 1248.91, "meses_ativos_12m": 2}, {"cliente": "CLINICA VETERINARIA HANDREYAS LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 991.02, "meses_ativos_12m": 4}, {"cliente": "COMERCIAL CARDUMES LTDA", "cidade": "Pomerode/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 887.5, "meses_ativos_12m": 4}, {"cliente": "L M PET SHOP LTDA", "cidade": "Corupa/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 611.15, "meses_ativos_12m": 8}, {"cliente": "NICOLE BRAZ DE BONA LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 471.9, "meses_ativos_12m": 2}, {"cliente": "GABRIELA DE ANDRADE NIEL", "cidade": "Guaramirim/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 430.7, "meses_ativos_12m": 2}, {"cliente": "AGROPECUARIA E PET SHOP FRIEDEMANN LTDA", "cidade": "Guaramirim/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 423.76, "meses_ativos_12m": 3}, {"cliente": "CASA DO CRIADOR ANP LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 423.76, "meses_ativos_12m": 7}, {"cliente": "AGROPET COMERCIAL VELOSO LTDA", "cidade": "Jaragua Do Sul/SC", "voltou_mes_aberto": false, "outro_vendedor": "", "valor_mes_ant": 349.01, "meses_ativos_12m": 4}], "giro": [{"mes": "Abr/26", "positivados": 33, "nao_repetiram": 18, "entraram": 13, "saldo": -5}, {"mes": "Mai/26", "positivados": 33, "nao_repetiram": 9, "entraram": 9, "saldo": 0}, {"mes": "Jun/26", "positivados": 27, "nao_repetiram": 14, "entraram": 8, "saldo": -6}, {"mes": "Jul/26", "positivados": 22, "nao_repetiram": 11, "entraram": 6, "saldo": -5}, {"mes": "Ago/26", "positivados": 38, "nao_repetiram": 3, "entraram": 19, "saldo": 16}, {"mes": "Set/26", "positivados": 35, "nao_repetiram": 10, "entraram": 7, "saldo": -3}]};
+const META = {"ref_mes": "Set/26", "ref_mes_nome": "Setembro/2026", "mes_ant": "Ago/26", "mes_ant_nome": "Agosto", "mes_aberto": "Out/26", "janela_queda_atual": "Jul/26–Set/26", "janela_queda_ant": "Abr/26–Jun/26", "gerado_em": "02/10/2026"};
+let aba = 'parados', expandido = false;
+const BRL = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v||0);
+const esc = s => String(s||'').replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const FAIXA = {'Em risco':['var(--warn)','var(--warn-bg)'],'Inativo':['var(--orange)','rgba(217,122,63,0.14)'],'Perdido':['var(--crit)','var(--crit-bg)']};
+function chip(t,c,bg){ return `<span class="chip" style="background:${bg};color:${c};">${t}</span>`; }
+function flags(x){
+  let f='';
+  if(x.voltou_mes_aberto) f+=' '+chip('voltou em '+META.mes_aberto,'var(--good)','var(--good-bg)');
+  if(x.outro_vendedor) f+=' '+chip('comprou c/ '+esc(x.outro_vendedor),'var(--violet)','rgba(144,133,233,0.14)');
+  return f;
+}
+function cli(x){ return `<td class="c">${esc(x.cliente)}${flags(x)}<span class="qd-sub">${esc(x.cidade)}</span></td>`; }
+const R = Q.resumo;
+document.getElementById('qdRef').textContent = `Base: meses fechados até ${META.ref_mes} · gerado em ${META.gerado_em}`;
+document.getElementById('qdKpis').innerHTML = [
+  ['Pararam de comprar', `${R.parados_qtd} clientes`, `${BRL(R.parados_ticket_mensal)}/mês em ticket médio`],
+  ['Em risco (2 meses sem compra)', `${R.parados_em_risco} clientes`, `${BRL(R.em_risco_ticket_mensal)}/mês — recuperar já`],
+  ['Comprando menos', `${R.queda_qtd} clientes`, `${BRL(R.queda_perda_3m)} a menos em 3 meses`],
+  [`Não repetiram em ${META.ref_mes}`, `${R.nao_repetiu_qtd} clientes`, `compraram ${BRL(R.nao_repetiu_valor)} em ${META.mes_ant}`],
+].map(k=>`<div class="qd-kpi"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+
+const DESC = {
+  parados: `Clientes que compraram em pelo menos 3 dos últimos 12 meses e não compram há 2 meses ou mais. <b style="color:var(--warn)">Em risco</b> = 2 meses sem compra · <b style="color:var(--orange)">Inativo</b> = 3 a 5 meses · <b style="color:var(--crit)">Perdido</b> = 6+ meses. Ordenado pelo ticket médio mensal.`,
+  queda: `Clientes ativos que compraram 30% ou mais a menos em ${META.janela_queda_atual} do que em ${META.janela_queda_ant}. Ordenado pelo valor que deixou de entrar.`,
+  nao_repetiu: `Clientes que compraram em ${META.mes_ant} e não compraram em ${META.ref_mes}. São os mais fáceis de recuperar — a relação ainda está quente.`,
+  giro: `Quantos clientes entram e saem da sua positivação a cada mês. Saldo negativo = a carteira está encolhendo.`,
+};
+function tabela(head, linhas){
+  return `<table class="qd-table"><thead><tr>${head.map(h=>`<th class="${h[1]||''}">${h[0]}</th>`).join('')}</tr></thead><tbody>${linhas.join('')}</tbody></table>`;
+}
+function render(){
+  document.querySelectorAll('#qdTabs .qd-tab').forEach(b=>{ b.dataset.active = (b.dataset.qd===aba); b.onclick=()=>{ aba=b.dataset.qd; expandido=false; render(); }; });
+  document.getElementById('qdDesc').innerHTML = DESC[aba];
+  const body = document.getElementById('qdBody');
+  const LIM = 15;
+  let html='', total=0;
+  if(aba==='parados'){
+    const L = Q.parados; total=L.length;
+    html = tabela([['Cliente'],['Situação'],['Última compra'],['Meses ativos (12m)','n'],['Ticket médio/mês','n'],['Total 12m','n']],
+      (expandido?L:L.slice(0,LIM)).map(x=>{ const f=FAIXA[x.faixa];
+        return `<tr>${cli(x)}<td>${chip(x.faixa,f[0],f[1])}<span class="qd-sub">${x.meses_sem_compra} meses sem compra</span></td><td>${x.ultima_compra}</td><td class="n">${x.meses_ativos_12m}</td><td class="n" style="color:#fff;font-weight:600">${BRL(x.ticket_medio_mensal)}</td><td class="n">${BRL(x.total_12m)}</td></tr>`; }));
+  } else if(aba==='queda'){
+    const L = Q.queda; total=L.length;
+    html = tabela([['Cliente'],[META.janela_queda_ant,'n'],[META.janela_queda_atual,'n'],['Variação','n'],['Deixou de comprar','n']],
+      (expandido?L:L.slice(0,LIM)).map(x=>`<tr>${cli(x)}<td class="n">${BRL(x.fat_3m_ant)}</td><td class="n">${BRL(x.fat_3m_atual)}</td><td class="n">${chip(x.var_pct.toFixed(0).replace('.',',')+'%','var(--crit)','var(--crit-bg)')}</td><td class="n" style="color:#fff;font-weight:600">${BRL(x.perda)}</td></tr>`));
+  } else if(aba==='nao_repetiu'){
+    const L = Q.nao_repetiu; total=L.length;
+    html = tabela([['Cliente'],[`Comprou em ${META.mes_ant}`,'n'],['Meses ativos (12m)','n']],
+      (expandido?L:L.slice(0,LIM)).map(x=>`<tr>${cli(x)}<td class="n" style="color:#fff;font-weight:600">${BRL(x.valor_mes_ant)}</td><td class="n">${x.meses_ativos_12m}</td></tr>`));
+  } else {
+    html = tabela([['Mês'],['Positivados','n'],['Entraram (novos/recuperados)','n'],['Não repetiram','n'],['Saldo','n']],
+      Q.giro.map(g=>{ const c = g.saldo>0?'var(--good)':(g.saldo<0?'var(--crit)':'var(--text-secondary)');
+        return `<tr><td class="c">${g.mes}</td><td class="n">${g.positivados}</td><td class="n">${g.entraram}</td><td class="n">${g.nao_repetiram}</td><td class="n" style="color:${c};font-weight:700">${g.saldo>0?'+':''}${g.saldo}</td></tr>`; }));
+  }
+  if(aba!=='giro' && total===0) html = '<p class="text-xs" style="color:var(--good)">Nenhum cliente nesta situação. Ótimo sinal — mantenha a frequência de visitas.</p>';
+  if(aba!=='giro' && total>LIM) html += `<button class="qd-more" id="qdMore">${expandido?'Mostrar menos':'Ver todos os '+total+' clientes'}</button>`;
+  body.innerHTML = html;
+  const mb = document.getElementById('qdMore'); if(mb) mb.onclick=()=>{ expandido=!expandido; render(); };
+}
+// Dica assertiva
+(function(){
+  const top = Q.parados.filter(x=>x.faixa==='Em risco' && !x.voltou_mes_aberto).slice(0,3).map(x=>esc(x.cliente));
+  const topNR = Q.nao_repetiu.filter(x=>!x.voltou_mes_aberto).slice(0,3).map(x=>esc(x.cliente));
+  let t = `<b>Como agir:</b> `;
+  if(R.parados_em_risco>0) t += `os <b>${R.parados_em_risco} clientes em risco</b> ainda podem ser recuperados com uma visita ou ligação esta semana${top.length?` — comece por <b>${top.join(', ')}</b>`:''}. `;
+  if(R.nao_repetiu_qtd>0) t += `Dos que não repetiram em ${META.ref_mes}${topNR.length?`, priorize <b>${topNR.join(', ')}</b>`:''}: pergunte se ficou algum pedido pendente ou estoque parado. `;
+  if(R.queda_qtd>0) t += `Nos <b>${R.queda_qtd} clientes comprando menos</b>, descubra o motivo (concorrência, preço, mix) antes de oferecer desconto. `;
+  t += `Clientes marcados “comprou c/ outro vendedor” não estão perdidos para a Novavet — alinhe com a supervisão antes de abordar.`;
+  document.getElementById('qdTip').innerHTML = t;
+})();
+// Item extra no plano de ação
+function addPlano(){
+  const ul = document.getElementById('planoAcao'); if(!ul || ul.querySelector('[data-qd-plano]')) return;
+  const pot = R.em_risco_ticket_mensal + R.nao_repetiu_valor;
+  const li = document.createElement('li'); li.className='flex gap-2.5';
+  li.innerHTML = `<span class="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:var(--crit);"></span><span><b>Recuperação de clientes:</b> ${R.parados_em_risco} clientes em risco e ${R.nao_repetiu_qtd} que não repetiram em ${META.ref_mes} somam cerca de <b>${BRL(pot)}/mês</b> em potencial. Reserve pelo menos 1 dia por semana da agenda para eles — veja a lista em “Quedas de clientes”.</span>`;
+  li.setAttribute('data-qd-plano','1');
+  ul.appendChild(li);
+}
+if(typeof window.renderPlano==='function'){ const _rp=window.renderPlano; window.renderPlano=function(){ _rp(); addPlano(); }; }
+addPlano();
+render();
+})();
+</script>
+<!-- QUEDAS_SCRIPT_END -->
+
+
