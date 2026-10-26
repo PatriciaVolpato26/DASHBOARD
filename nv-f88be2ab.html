@@ -223,6 +223,44 @@ body{
   <div class="qd-tip mt-4" id="qdTip"></div>
 </section>
 <!-- QUEDAS_CLIENTES_END -->
+    <!-- VALIDADES_PRODUTOS_START -->
+<style>
+.vl-table{ width:100%; font-size:13px; border-collapse:collapse; min-width:560px; }
+.vl-table th{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); padding:8px 10px 8px 0; border-bottom:1px solid var(--border); font-weight:600; }
+.vl-table td{ padding:9px 10px 9px 0; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-secondary); vertical-align:top; }
+.vl-table td.n, .vl-table th.n{ text-align:right; font-variant-numeric:tabular-nums; }
+.vl-table td.vl-c{ color:#fff; font-weight:600; min-width:220px; }
+.vl-sub{ font-size:11px; color:var(--text-muted); font-weight:400; display:block; margin-top:1px; }
+.vl-kpis{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+@media (min-width:900px){ .vl-kpis{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.vl-kpi{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:12px 14px; }
+.vl-kpi .l{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); }
+.vl-kpi .v{ font-family:'Manrope','Inter',sans-serif; font-size:20px; font-weight:800; color:#fff; margin-top:2px; }
+.vl-kpi .s{ font-size:11.5px; color:var(--text-secondary); margin-top:2px; }
+.vl-tip{ background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--warn); border-radius:12px; padding:12px 14px; font-size:13px; color:var(--text-secondary); line-height:1.55; }
+.vl-tip b{ color:#fff; }
+</style>
+<section class="card p-5 mb-6 fade-in" id="validadesProdutos" style="border-left:3px solid var(--warn);">
+  <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+    <h2 class="font-display text-base font-bold text-white">Estoque com validade próxima</h2>
+    <span class="text-[11px] text-[var(--text-muted)]">Atualizado em 26/10/2026</span>
+  </div>
+  <p class="text-xs text-[var(--text-secondary)] mb-4">Estoque da empresa (todos os fornecedores) — não é exclusivo da sua carteira, mas é oportunidade de venda para qualquer cliente que use esses itens. Priorize oferecer antes de perder.</p>
+  <div class="vl-kpis mb-4">
+    <div class="vl-kpi"><div class="l">Vencido</div><div class="v">2 SKUs</div><div class="s">619 unid. — perda já registrada</div></div>
+    <div class="vl-kpi"><div class="l">Crítico · ≤ 30 dias</div><div class="v" style="color:var(--crit);">4 SKUs</div><div class="s">87 unid. a girar urgente</div></div>
+    <div class="vl-kpi"><div class="l">Atenção · 31–90 dias</div><div class="v" style="color:var(--warn);">7 SKUs</div><div class="s">13.293 unid. — planeje agora</div></div>
+    <div class="vl-kpi"><div class="l">Total em risco (≤ 90d)</div><div class="v">13 SKUs</div><div class="s">13.999 unid. no total</div></div>
+  </div>
+  <div class="overflow-x-auto scrollbar-thin">
+    <table class="vl-table">
+      <thead><tr><th>Produto</th><th>Validade</th><th>Situação</th><th class="n">Estoque</th></tr></thead>
+      <tbody><tr><td class="vl-c">NOBIVAC DHPPI + L**<span class="vl-sub">Medicamentos &amp; Parasiticidas (MSD) · cód. 24852</span></td><td>30/05/2026<span class="vl-sub">há 149d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">VENCIDO</span></td><td class="n">25</td></tr><tr><td class="vl-c">BUTOX P CE 20ML CX/25UN<span class="vl-sub">Medicamentos (Vallée) · cód. 964</span></td><td>30/06/2026<span class="vl-sub">há 118d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">VENCIDO</span></td><td class="n">594</td></tr><tr><td class="vl-c">CALMINEX 100 GR<span class="vl-sub">Medicamentos (Vallée) · cód. 1845</span></td><td>30/10/2026<span class="vl-sub">em 4d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">≤ 30 dias</span></td><td class="n">44</td></tr><tr><td class="vl-c">IMIZOL 15ML<span class="vl-sub">Medicamentos (Vallée) · cód. 1853</span></td><td>30/10/2026<span class="vl-sub">em 4d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">≤ 30 dias</span></td><td class="n">20</td></tr><tr><td class="vl-c">SNAP CANINO 4DX 1X30 TESTES PLUS IDEXX<span class="vl-sub">Testes Rápidos (IDEXX) · cód. 48386</span></td><td>12/11/2026<span class="vl-sub">em 17d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">≤ 30 dias</span></td><td class="n">14</td></tr><tr><td class="vl-c">SNAP FEL COMBO FIV/FELV 1X30 TESTES IDEX<span class="vl-sub">Testes Rápidos (IDEXX) · cód. 48392</span></td><td>17/11/2026<span class="vl-sub">em 22d</span></td><td><span class="chip" style="background:var(--crit-bg);color:var(--crit);">≤ 30 dias</span></td><td class="n">9</td></tr><tr><td class="vl-c">NOBIVAC RAIVA 1ML**<span class="vl-sub">Medicamentos &amp; Parasiticidas (MSD) · cód. 24853</span></td><td>30/11/2026<span class="vl-sub">em 35d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">12.950</td></tr><tr><td class="vl-c">NOBIVAC RESPIRA BB 10DS **<span class="vl-sub">Medicamentos &amp; Parasiticidas (MSD) · cód. 47092</span></td><td>30/11/2026<span class="vl-sub">em 35d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">144</td></tr><tr><td class="vl-c">VALLEECALCIO GLIC. 250ML CX C/6UN VALLE*<span class="vl-sub">Medicamentos (Vallée) · cód. 2109</span></td><td>30/11/2026<span class="vl-sub">em 35d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">30</td></tr><tr><td class="vl-c">SNAP FEL COMBO FIV/FELV 1X30 TESTES IDEX<span class="vl-sub">Testes Rápidos (IDEXX) · cód. 48392</span></td><td>16/12/2026<span class="vl-sub">em 51d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">20</td></tr><tr><td class="vl-c">AZIUM COMPRIMIDOS 0,5 MG C/20 COMP*<span class="vl-sub">Medicamentos &amp; Parasiticidas (MSD) · cód. 1824</span></td><td>30/12/2026<span class="vl-sub">em 65d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">20</td></tr><tr><td class="vl-c">OPTIMMUNE POM OFTAL 3,5GR*<span class="vl-sub">Medicamentos &amp; Parasiticidas (MSD) · cód. 1835</span></td><td>30/12/2026<span class="vl-sub">em 65d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">29</td></tr><tr><td class="vl-c">BORGAL 50ML<span class="vl-sub">Medicamentos (Vallée) · cód. 974</span></td><td>30/12/2026<span class="vl-sub">em 65d</span></td><td><span class="chip" style="background:var(--warn-bg);color:var(--warn);">31–90 dias</span></td><td class="n">100</td></tr></tbody>
+    </table>
+  </div>
+  <div class="vl-tip mt-4"><b>Seja assertivo:</b> leve esses itens para a próxima visita como oferta objetiva (combo, desconto por volume ou condição especial) — não deixe para a última semana do prazo. Itens já vencidos são perda confirmada; priorize os "críticos" de maior estoque hoje.</div>
+</section>
+<!-- VALIDADES_PRODUTOS_END -->
     <!-- PLANO DE AÇÃO -->
     <section class="card p-5 mb-8 card-hover fade-in" style="border-left:3px solid var(--good);">
       <div class="flex items-center gap-2 mb-3">
